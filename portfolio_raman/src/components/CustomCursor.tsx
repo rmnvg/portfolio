@@ -1,27 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-
-const MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
-
-function subscribe(callback: () => void) {
-  const mql = window.matchMedia(MEDIA_QUERY);
-  mql.addEventListener("change", callback);
-  return () => mql.removeEventListener("change", callback);
-}
-
-function getSnapshot() {
-  return window.matchMedia(MEDIA_QUERY).matches;
-}
-
-function getServerSnapshot() {
-  return false;
-}
+import { useEffect, useRef, useState } from "react";
+import { usePointerFine } from "@/lib/usePointerFine";
 
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const enabled = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const enabled = usePointerFine();
   const [hovering, setHovering] = useState(false);
 
   useEffect(() => {

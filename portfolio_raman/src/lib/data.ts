@@ -64,7 +64,7 @@ export const projects: Project[] = [
       "Added one-shot citation repair, structural refusals, and an isolated, network-disabled Python executor for generating validated charts and tables.",
     ],
     stack: ["Python", "FastAPI", "LangGraph", "Vertex AI", "Qdrant", "Docker"],
-    link: "https://github.com/rmnvg",
+    link: "https://github.com/rmnvg/census-insight-agent",
   },
   {
     name: "Hybrid Deep-Learning Stock Forecasting",
@@ -76,6 +76,7 @@ export const projects: Project[] = [
       "Achieved R² scores up to 0.99 (Apple) and 0.97 (Google, Tesla, Nvidia) — a 7% improvement in R² overall.",
     ],
     stack: ["Python", "TensorFlow", "Keras", "XGBoost", "scikit-learn"],
+    link: "https://github.com/rmnvg/stockprice_prediction",
   },
 ];
 
@@ -154,6 +155,7 @@ export const navLinks = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
+  { href: "#github", label: "Open Source" },
   { href: "#skills", label: "Skills" },
   { href: "#contact", label: "Contact" },
 ];

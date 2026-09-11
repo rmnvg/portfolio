@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Command } from "lucide-react";
 import { navLinks, personal } from "@/lib/data";
+import { useLenis } from "@/lib/lenis-context";
+import { OPEN_PALETTE_EVENT } from "@/components/CommandPalette";
+import MagneticButton from "@/components/MagneticButton";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const lenis = useLenis();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -15,6 +19,16 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    setOpen(false);
+    const el = document.querySelector(href);
+    if (!el) return;
+    if (lenis) lenis.scrollTo(el as HTMLElement, { offset: -72 });
+    else el.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <motion.header
@@ -30,6 +44,7 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10">
         <a
           href="#top"
+          onClick={(e) => handleNav(e, "#top")}
           className="font-mono text-sm font-medium tracking-tight text-foreground"
         >
           {personal.name
@@ -44,6 +59,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
+                onClick={(e) => handleNav(e, link.href)}
                 className="text-sm text-muted transition-colors hover:text-foreground"
               >
                 {link.label}
@@ -52,14 +68,27 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <a
-          href={personal.resumeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors hover:border-accent hover:text-accent md:inline-flex"
-        >
-          Resume <ArrowUpRight className="h-3.5 w-3.5" />
-        </a>
+        <div className="hidden items-center gap-3 md:flex">
+          <button
+            onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
+            className="flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+            aria-label="Open command palette"
+          >
+            <Command className="h-3.5 w-3.5" />
+            <kbd className="section-label">K</kbd>
+          </button>
+
+          <MagneticButton>
+            <a
+              href={personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+            >
+              Resume <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </MagneticButton>
+        </div>
 
         <button
           aria-label="Toggle menu"
@@ -77,7 +106,7 @@ export default function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => handleNav(e, link.href)}
                   className="block text-base text-muted transition-colors hover:text-foreground"
                 >
                   {link.label}

@@ -5,6 +5,8 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { personal } from "@/lib/data";
 import HeroSceneClient from "@/components/three/HeroSceneClient";
+import ScrambleText from "@/components/ScrambleText";
+import MagneticButton from "@/components/MagneticButton";
 
 export default function Hero() {
   return (
@@ -37,7 +39,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-6xl"
           >
-            {personal.name}
+            <ScrambleText text={personal.name} startDelay={250} />
           </motion.h1>
 
           <motion.p
@@ -64,20 +66,24 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.34 }}
             className="mt-9 flex flex-wrap items-center gap-4"
           >
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.03]"
-            >
-              Get in touch
-            </a>
-            <a
-              href={personal.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
-            >
-              View résumé <ArrowUpRight className="h-4 w-4" />
-            </a>
+            <MagneticButton>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.03]"
+              >
+                Get in touch
+              </a>
+            </MagneticButton>
+            <MagneticButton>
+              <a
+                href={personal.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                View résumé <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </MagneticButton>
 
             <div className="ml-1 flex items-center gap-3">
               <a

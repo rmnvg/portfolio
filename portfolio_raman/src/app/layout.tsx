@@ -5,6 +5,8 @@ import { personal } from "@/lib/data";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import Loader from "@/components/Loader";
+import NeuralBackground from "@/components/NeuralBackground";
+import CommandPalette from "@/components/CommandPalette";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,9 +57,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-accent">
+        <NeuralBackground />
         <Loader />
         <CustomCursor />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <CommandPalette />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

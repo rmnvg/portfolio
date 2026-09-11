@@ -2,6 +2,7 @@ import { GraduationCap } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import ParticleAvatar from "@/components/ParticleAvatar";
+import Counter from "@/components/Counter";
 import { education, personal, stats } from "@/lib/data";
 
 export default function About() {
@@ -33,7 +34,7 @@ export default function About() {
                 {stats.map((s) => (
                   <div key={s.label}>
                     <p className="text-2xl font-semibold text-gradient sm:text-3xl">
-                      {s.value}
+                      <Counter value={s.value} />
                     </p>
                     <p className="mt-1 text-xs text-muted">{s.label}</p>
                   </div>
