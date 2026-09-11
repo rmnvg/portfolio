@@ -9,14 +9,14 @@ export default function About() {
   return (
     <section id="about" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <SectionHeading index="02" label="About" title="Who I am" />
+        <SectionHeading index="01" label="About" title="Who I am" />
 
         <div className="mb-16 flex flex-col items-center gap-16 lg:flex-row lg:items-start">
           <Reveal delay={0.02} className="shrink-0">
             <div className="relative">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/25 to-accent-2/15 blur-3xl" />
               <div className="relative">
-                <ParticleAvatar src="/raman.png" size={260} gap={3.2} />
+                <ParticleAvatar src="/raman.jpg" size={280} gap={3.2} />
               </div>
               <p className="section-label mt-4 text-center text-[11px] text-muted">
                 hover to interact

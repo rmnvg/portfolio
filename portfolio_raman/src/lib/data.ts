@@ -70,6 +70,27 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    name: "HireFlow AI",
+    description:
+      "An AI-assisted recruiting workflow that turns a job description into structured requirements, surfaces recruiter-approved contacts, and runs consented AI screening calls.",
+    points: [
+      "Built as a production-oriented monorepo with independently deployable Next.js and FastAPI containers, shipped as multi-stage images to Amazon ECR and ECS.",
+      "Extracts structured requirements — skills, seniority, location, experience, search keywords — from raw job descriptions, every field recruiter-editable before use.",
+      "Integrated Apollo contact search with per-job deduplication and Hunar voice agents for screening calls, persisting jobs, candidates, calls, and webhook events in Supabase PostgreSQL.",
+      "Processes signed, idempotent webhooks for call outcomes — status, summaries, duration, recordings — surfaced live in the recruiter dashboard.",
+    ],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "Docker",
+      "AWS ECS",
+    ],
+    link: "https://github.com/rmnvg/HireFlow-AI",
+  },
+  {
     name: "Census Insight Agent",
     description:
       "A citation-grounded LangGraph agent over 341 pages of Census reports, built for reliable, verifiable multi-state comparisons.",
@@ -167,8 +188,8 @@ export const achievements: string[] = [
 ];
 
 export const navLinks = [
-  { href: "#ask", label: "Ask" },
   { href: "#about", label: "About" },
+  { href: "#ask", label: "Ask" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
   { href: "#github", label: "Open Source" },

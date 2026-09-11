@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     description: personal.tagline,
   },
   icons: {
-    icon: "/raman.png",
+    icon: "/raman.jpg",
   },
 };
 

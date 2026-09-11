@@ -10,19 +10,39 @@ type Particle = {
   vx: number;
   vy: number;
   size: number;
-  color: string;
+  /** 0 = light source pixel, 1 = dark. Drives dot size and opacity. */
+  weight: number;
 };
+
+function hexToRgb(hex: string): [number, number, number] {
+  const clean = hex.trim().replace("#", "");
+  const full =
+    clean.length === 3
+      ? clean
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : clean;
+  const n = parseInt(full, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
 
 export default function ParticleAvatar({
   src,
   size = 280,
   gap = 3.4,
-  brightnessCutoff = 232,
+  brightnessCutoff = 205,
+  zoom = 1.18,
+  focusY = 0.44,
 }: {
   src: string;
   size?: number;
   gap?: number;
   brightnessCutoff?: number;
+  /** Scale applied to the source image so the subject fills more of the circle. */
+  zoom?: number;
+  /** Vertical focal point of the source, 0 = top, 1 = bottom. */
+  focusY?: number;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -43,6 +63,22 @@ export default function ParticleAvatar({
     let animationId = 0;
     const mouse = { x: -9999, y: -9999, active: false };
 
+    // Single ink colour, taken from the active theme.
+    let ink: [number, number, number] = [240, 233, 220];
+    const readInk = () => {
+      const value = getComputedStyle(document.documentElement)
+        .getPropertyValue("--foreground")
+        .trim();
+      if (value.startsWith("#")) ink = hexToRgb(value);
+    };
+    readInk();
+
+    const themeObserver = new MutationObserver(readInk);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     const img = new Image();
     img.src = src;
     img.onload = () => {
@@ -52,10 +88,10 @@ export default function ParticleAvatar({
       const sctx = sample.getContext("2d");
       if (!sctx) return;
 
-      const scale = Math.max(size / img.width, size / img.height);
+      const scale = Math.max(size / img.width, size / img.height) * zoom;
       const w = img.width * scale;
       const h = img.height * scale;
-      sctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      sctx.drawImage(img, (size - w) / 2, size * 0.5 - h * focusY, w, h);
 
       const { data } = sctx.getImageData(0, 0, size, size);
       const radius = size / 2;
@@ -65,7 +101,8 @@ export default function ParticleAvatar({
         for (let x = 0; x < size; x += gap) {
           const dx = x - radius;
           const dy = y - radius;
-          if (dx * dx + dy * dy > radius * radius) continue;
+          const dist = Math.hypot(dx, dy);
+          if (dist > radius) continue;
 
           const i = (Math.round(y) * size + Math.round(x)) * 4;
           const r = data[i];
@@ -73,8 +110,22 @@ export default function ParticleAvatar({
           const b = data[i + 2];
           const brightness = (r + g + b) / 3;
 
-          // Drop near-white background pixels so the silhouette reads clearly.
+          // The subject is dark against a light background — keep the ink,
+          // drop the paper.
           if (brightness > brightnessCutoff) continue;
+
+          // Radial vignette: whatever background survives dissolves toward the
+          // rim, so the subject reads as a portrait rather than a filled disc.
+          const edge = dist / radius;
+          const falloff =
+            edge < 0.55 ? 1 : Math.max(0, 1 - (edge - 0.55) / 0.42);
+          if (falloff <= 0.05 || Math.random() > falloff) continue;
+
+          const weight = Math.min(
+            1,
+            (1 - brightness / brightnessCutoff) * falloff,
+          );
+          if (weight < 0.04) continue;
 
           built.push({
             x,
@@ -83,8 +134,8 @@ export default function ParticleAvatar({
             originY: y,
             vx: 0,
             vy: 0,
-            size: 0.9 + (1 - brightness / 255) * 1.6,
-            color: `rgb(${r},${g},${b})`,
+            size: 0.8 + weight * 2.1,
+            weight,
           });
         }
       }
@@ -133,7 +184,10 @@ export default function ParticleAvatar({
         p.y += p.vy;
 
         ctx.beginPath();
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = `rgba(${ink[0]},${ink[1]},${ink[2]},${(
+          0.3 +
+          p.weight * 0.7
+        ).toFixed(3)})`;
         ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
         ctx.fill();
       }
@@ -144,10 +198,11 @@ export default function ParticleAvatar({
 
     return () => {
       cancelAnimationFrame(animationId);
+      themeObserver.disconnect();
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
     };
-  }, [src, size, gap, brightnessCutoff]);
+  }, [src, size, gap, brightnessCutoff, zoom, focusY]);
 
   return (
     <canvas

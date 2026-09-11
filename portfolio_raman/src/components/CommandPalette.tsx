@@ -52,8 +52,8 @@ export default function CommandPalette() {
 
   const actions = useMemo<CommandAction[]>(
     () => [
-      { id: "nav-ask", label: "Ask my résumé a question", group: "Navigate", icon: <Hash className="h-4 w-4" />, perform: () => goTo("ask") },
       { id: "nav-about", label: "Go to About", group: "Navigate", icon: <Hash className="h-4 w-4" />, perform: () => goTo("about") },
+      { id: "nav-ask", label: "Ask my résumé a question", group: "Navigate", icon: <Hash className="h-4 w-4" />, perform: () => goTo("ask") },
       { id: "nav-experience", label: "Go to Experience", group: "Navigate", icon: <Hash className="h-4 w-4" />, perform: () => goTo("experience") },
       { id: "nav-projects", label: "Go to Projects", group: "Navigate", icon: <Hash className="h-4 w-4" />, perform: () => goTo("projects") },
       { id: "nav-github", label: "Go to Open Source", group: "Navigate", icon: <Hash className="h-4 w-4" />, perform: () => goTo("github") },
