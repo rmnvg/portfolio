@@ -49,7 +49,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative border-t border-border py-28">
+    <section id="contact" className="relative border-t border-border py-24">
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-accent/10 to-transparent" />
 
       <div className="relative mx-auto max-w-4xl px-6 text-center sm:px-10">
@@ -65,11 +65,11 @@ export default function Contact() {
 
         <Reveal delay={0.02}>
           <p className="section-label mb-4 text-xs text-accent uppercase">
-            07 — Contact
+            08 — Contact
           </p>
-          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+          <h2 className="font-display text-4xl leading-[1.03] text-foreground sm:text-6xl">
             Let&rsquo;s build something{" "}
-            <span className="text-gradient">worth shipping.</span>
+            <em className="text-accent not-italic">worth shipping.</em>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
             I&rsquo;m always open to conversations about Gen AI systems,

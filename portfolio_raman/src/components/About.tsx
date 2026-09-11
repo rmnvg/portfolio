@@ -7,9 +7,9 @@ import { education, personal, stats } from "@/lib/data";
 
 export default function About() {
   return (
-    <section id="about" className="border-t border-border py-28">
+    <section id="about" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <SectionHeading index="01" label="About" title="Who I am" />
+        <SectionHeading index="02" label="About" title="Who I am" />
 
         <div className="mb-16 flex flex-col items-center gap-16 lg:flex-row lg:items-start">
           <Reveal delay={0.02} className="shrink-0">
@@ -45,7 +45,7 @@ export default function About() {
         </div>
 
         <Reveal delay={0.15}>
-          <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+          <div className="offset-shadow-sm rounded-lg border border-border bg-surface p-6 sm:p-8">
             <div className="mb-5 flex items-center gap-2 text-sm text-accent">
               <GraduationCap className="h-4 w-4" />
               <span className="section-label uppercase">Education</span>

@@ -25,6 +25,7 @@ export type Experience = {
   company: string;
   role: string;
   period: string;
+  stack: string[];
   points: string[];
 };
 
@@ -33,6 +34,20 @@ export const experience: Experience[] = [
     company: "Zinnia",
     role: "Software Engineer — Gen AI (Full-Time, prev. Intern)",
     period: "Jan 2025 — Jul 2026",
+    stack: [
+      "Python",
+      "FastAPI",
+      "Django",
+      "Celery",
+      "Qdrant",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "AWS Lambda",
+      "AWS S3",
+      "OpenAI",
+      "Power BI",
+    ],
     points: [
       "Architected a multi-tier document classification pipeline (barcode → OCR → semantic search → LLM fallback) processing ~8K–10K documents/day (~2.5M/year) for insurance and financial workflows.",
       "Achieved 85–90% straight-through processing (STP), significantly reducing manual review effort and operational costs.",
@@ -152,6 +167,7 @@ export const achievements: string[] = [
 ];
 
 export const navLinks = [
+  { href: "#ask", label: "Ask" },
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },

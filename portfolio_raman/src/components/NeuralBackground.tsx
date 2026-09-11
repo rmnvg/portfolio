@@ -17,6 +17,22 @@ export default function NeuralBackground() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
+    // Palette follows the active theme.
+    let lineColor = "";
+    let dotColor = "";
+    const readPalette = () => {
+      const styles = getComputedStyle(document.documentElement);
+      lineColor = styles.getPropertyValue("--accent").trim() || "#e4703a";
+      dotColor = styles.getPropertyValue("--accent-2").trim() || "#5fb49c";
+    };
+    readPalette();
+
+    const themeObserver = new MutationObserver(readPalette);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     let width = window.innerWidth;
     let height = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -66,7 +82,8 @@ export default function NeuralBackground() {
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
           if (dist < LINK_DIST) {
-            ctx.strokeStyle = `rgba(139,123,255,${0.12 * (1 - dist / LINK_DIST)})`;
+            ctx.globalAlpha = 0.16 * (1 - dist / LINK_DIST);
+            ctx.strokeStyle = lineColor;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -76,12 +93,14 @@ export default function NeuralBackground() {
         }
       }
 
+      ctx.globalAlpha = 0.45;
+      ctx.fillStyle = dotColor;
       for (const n of nodes) {
         ctx.beginPath();
-        ctx.fillStyle = "rgba(79,209,197,0.4)";
         ctx.arc(n.x, n.y, 1.3, 0, Math.PI * 2);
         ctx.fill();
       }
+      ctx.globalAlpha = 1;
 
       if (!reduceMotion) raf = requestAnimationFrame(draw);
     };
@@ -89,6 +108,7 @@ export default function NeuralBackground() {
 
     return () => {
       cancelAnimationFrame(raf);
+      themeObserver.disconnect();
       window.removeEventListener("resize", resize);
     };
   }, []);

@@ -1,14 +1,32 @@
 @import "tailwindcss";
 
-:root {
-  --background: #08080c;
-  --surface: #0f0f16;
-  --surface-2: #14141d;
-  --foreground: #f2f2f5;
-  --muted: #9797a6;
-  --border: #1f1f2b;
-  --accent: #8b7bff;
-  --accent-2: #4fd1c5;
+/* ── After hours (dark) ─────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --background: #14110d;
+  --surface: #1d1913;
+  --surface-2: #262019;
+  --foreground: #f0e9dc;
+  --muted: #9a9083;
+  --border: #332c23;
+  --accent: #e4703a;
+  --accent-2: #5fb49c;
+  --shadow: rgba(228, 112, 58, 0.18);
+  --ink: rgba(240, 233, 220, 0.05);
+}
+
+/* ── Daybook (light) ────────────────────────────────────────────── */
+[data-theme="light"] {
+  --background: #f2ede3;
+  --surface: #fbf8f2;
+  --surface-2: #eae2d4;
+  --foreground: #1c1917;
+  --muted: #6b6259;
+  --border: #ddd3c4;
+  --accent: #b4471f;
+  --accent-2: #2f6f5e;
+  --shadow: rgba(28, 25, 23, 0.14);
+  --ink: rgba(28, 25, 23, 0.045);
 }
 
 @theme inline {
@@ -22,6 +40,7 @@
   --color-accent-2: var(--accent-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
 }
 
 * {
@@ -37,9 +56,30 @@ body {
   color: var(--foreground);
 }
 
+body,
+section,
+header,
+footer,
+div,
+a,
+button,
+p,
+h1,
+h2,
+h3,
+li,
+span,
+input,
+mark {
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    color 260ms ease;
+}
+
 ::selection {
   background: var(--accent);
-  color: #08080c;
+  color: var(--background);
 }
 
 ::-webkit-scrollbar {
@@ -56,26 +96,58 @@ body {
   border: 2px solid var(--background);
 }
 
+/* ── Type system ────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+}
+
+.section-label {
+  font-family: var(--font-geist-mono);
+  letter-spacing: 0.14em;
+}
+
 .text-gradient {
-  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  background: linear-gradient(112deg, var(--accent), var(--accent-2));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
+/* ── Surfaces ───────────────────────────────────────────────────── */
+/* Hard offset shadow — tactile, printed rather than glowing. */
+.offset-shadow {
+  box-shadow: 12px 14px 0 var(--shadow);
+}
+
+.offset-shadow-sm {
+  box-shadow: 6px 7px 0 var(--shadow);
+}
+
 .bg-grid {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 44px 44px;
+    linear-gradient(to right, var(--ink) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ink) 1px, transparent 1px);
+  background-size: 46px 46px;
 }
 
-.section-label {
-  font-family: var(--font-geist-mono);
-  letter-spacing: 0.18em;
+/* Ambient 3D orb — atmosphere, never the focal point. */
+.hero-orb {
+  opacity: 0.26;
 }
 
-/* Lenis smooth scroll */
+[data-theme="light"] .hero-orb {
+  opacity: 0.11;
+  filter: saturate(0.75);
+}
+
+.tint-accent {
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 28%, transparent);
+}
+
+/* ── Lenis smooth scroll ────────────────────────────────────────── */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -87,22 +159,27 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Custom cursor */
+/* ── Custom cursor ──────────────────────────────────────────────── */
 html.cursor-none-custom,
 html.cursor-none-custom * {
   cursor: none !important;
 }
 
-/* Grain overlay */
+/* ── Paper grain ────────────────────────────────────────────────── */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] body::before {
+  mix-blend-mode: overlay;
+  opacity: 0.04;
 }
 
 @keyframes marquee {
@@ -115,6 +192,5 @@ body::before {
 }
 
 .animate-marquee {
-  animation: marquee 22s linear infinite;
+  animation: marquee 26s linear infinite;
 }
-

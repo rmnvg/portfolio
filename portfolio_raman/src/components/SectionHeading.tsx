@@ -10,16 +10,17 @@ export default function SectionHeading({
   title: string;
 }) {
   return (
-    <Reveal className="mb-12 flex items-baseline gap-4">
-      <span className="section-label text-sm text-accent">{index}</span>
-      <div>
-        <p className="section-label mb-2 text-xs text-muted uppercase">
+    <Reveal className="mb-12">
+      <div className="mb-4 flex items-center gap-3">
+        <span className="section-label text-[11px] text-accent">{index}</span>
+        <span className="h-px w-8 bg-border" />
+        <span className="section-label text-[11px] text-muted uppercase">
           {label}
-        </p>
-        <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          {title}
-        </h2>
+        </span>
       </div>
+      <h2 className="font-display text-4xl leading-[1.02] text-foreground sm:text-5xl">
+        {title}
+      </h2>
     </Reveal>
   );
 }

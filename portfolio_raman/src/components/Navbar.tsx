@@ -7,6 +7,7 @@ import { navLinks, personal } from "@/lib/data";
 import { useLenis } from "@/lib/lenis-context";
 import { OPEN_PALETTE_EVENT } from "@/components/CommandPalette";
 import MagneticButton from "@/components/MagneticButton";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -68,35 +69,40 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-2.5 md:flex">
           <button
             onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
-            className="flex items-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+            className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-2 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
             aria-label="Open command palette"
           >
             <Command className="h-3.5 w-3.5" />
             <kbd className="section-label">K</kbd>
           </button>
 
+          <ThemeToggle />
+
           <MagneticButton>
             <a
               href={personal.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+              className="inline-flex items-center gap-1.5 rounded-md border border-accent bg-accent px-4 py-2 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
             >
               Resume <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </MagneticButton>
         </div>
 
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((o) => !o)}
-          className="text-foreground md:hidden"
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-3 md:hidden">
+          <ThemeToggle />
+          <button
+            aria-label="Toggle menu"
+            onClick={() => setOpen((o) => !o)}
+            className="text-foreground"
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {open && (

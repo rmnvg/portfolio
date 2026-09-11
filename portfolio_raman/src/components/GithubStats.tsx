@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { ArrowUpRight, GitFork, Star } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
@@ -9,10 +8,7 @@ import TiltCard from "@/components/TiltCard";
 import Counter from "@/components/Counter";
 import { personal, projects } from "@/lib/data";
 
-type Repo = {
-  id: number;
-  name: string;
-  html_url: string;
+type RepoStats = {
   stargazers_count: number;
   forks_count: number;
   language: string | null;
@@ -34,50 +30,56 @@ const LANGUAGE_COLORS: Record<string, string> = {
   Shell: "#89e051",
 };
 
-const PINNED_REPOS = ["census-insight-agent", "stockprice_prediction"];
 const USERNAME = "rmnvg";
+
+function repoNameFromUrl(url: string) {
+  return url.replace(/\/+$/, "").split("/").pop() ?? "";
+}
 
 function timeAgo(dateStr: string) {
   const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
-  if (days < 1) return "today";
-  if (days === 1) return "1 day ago";
-  if (days < 30) return `${days} days ago`;
+  if (days < 1) return "updated today";
+  if (days === 1) return "updated 1 day ago";
+  if (days < 30) return `updated ${days} days ago`;
   const months = Math.floor(days / 30);
-  if (months < 12) return `${months} mo ago`;
-  return `${Math.floor(months / 12)} yr ago`;
+  if (months < 12) return `updated ${months} mo ago`;
+  return `updated ${Math.floor(months / 12)} yr ago`;
 }
+
+const REPO_PROJECTS = projects.filter((p) => p.link?.includes("github.com"));
 
 export default function GithubStats() {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [repos, setRepos] = useState<Repo[] | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [stats, setStats] = useState<Record<string, RepoStats>>({});
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
-        const [profileRes, ...repoResults] = await Promise.all([
-          fetch(`https://api.github.com/users/${USERNAME}`),
-          ...PINNED_REPOS.map((name) =>
-            fetch(`https://api.github.com/repos/${USERNAME}/${name}`),
-          ),
-        ]);
-        if (!profileRes.ok || repoResults.some((r) => !r.ok)) {
-          throw new Error("request failed");
-        }
-
-        const profileData = (await profileRes.json()) as Profile;
-        const repoData = (await Promise.all(
-          repoResults.map((r) => r.json()),
-        )) as Repo[];
-
-        if (!cancelled) {
-          setProfile(profileData);
-          setRepos(repoData);
+        const res = await fetch(`https://api.github.com/users/${USERNAME}`);
+        if (res.ok && !cancelled) {
+          setProfile((await res.json()) as Profile);
         }
       } catch {
-        if (!cancelled) setFailed(true);
+        // live enrichment is optional — the section stands without it
+      }
+
+      for (const project of REPO_PROJECTS) {
+        if (cancelled) return;
+        const name = repoNameFromUrl(project.link!);
+        try {
+          const res = await fetch(
+            `https://api.github.com/repos/${USERNAME}/${name}`,
+          );
+          if (!res.ok) continue;
+          const data = (await res.json()) as RepoStats;
+          if (!cancelled) {
+            setStats((prev) => ({ ...prev, [name]: data }));
+          }
+        } catch {
+          // skip this repo's live stats
+        }
       }
     })();
 
@@ -86,92 +88,104 @@ export default function GithubStats() {
     };
   }, []);
 
-  if (failed) return null;
-
-  const loading = !profile || !repos;
-
   return (
-    <section id="github" className="border-t border-border py-28">
+    <section id="github" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <SectionHeading
-          index="04"
+          index="05"
           label="Open Source"
           title="Live from GitHub"
         />
 
-        <Reveal delay={0.02} className="mb-10 flex flex-wrap gap-8">
-          <div>
-            <p className="text-2xl font-semibold text-gradient sm:text-3xl">
-              {profile ? <Counter value={`${profile.public_repos}+`} /> : "—"}
-            </p>
-            <p className="mt-1 text-xs text-muted">Public repositories</p>
-          </div>
-          <div>
-            <p className="text-2xl font-semibold text-gradient sm:text-3xl">
-              {profile ? <Counter value={`${profile.followers}+`} /> : "—"}
-            </p>
-            <p className="mt-1 text-xs text-muted">Followers</p>
-          </div>
-        </Reveal>
+        {profile && (
+          <Reveal delay={0.02} className="mb-10 flex flex-wrap gap-8">
+            <div>
+              <p className="text-2xl font-semibold text-gradient sm:text-3xl">
+                <Counter value={`${profile.public_repos}+`} />
+              </p>
+              <p className="mt-1 text-xs text-muted">Public repositories</p>
+            </div>
+            <div>
+              <p className="text-2xl font-semibold text-gradient sm:text-3xl">
+                <Counter value={`${profile.followers}+`} />
+              </p>
+              <p className="mt-1 text-xs text-muted">Followers</p>
+            </div>
+          </Reveal>
+        )}
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {loading
-            ? Array.from({ length: 2 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-40 animate-pulse rounded-2xl border border-border bg-surface"
-                />
-              ))
-            : repos!.map((repo, i) => {
-                const project = projects.find((p) => p.link?.includes(repo.name));
-                return (
-                  <Reveal key={repo.id} delay={i * 0.06} className="h-full">
-                    <TiltCard className="h-full">
-                      <motion.a
-                        href={repo.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-accent/50"
-                      >
-                        <div className="mb-3 flex items-start justify-between">
-                          <h3 className="font-medium text-foreground">
-                            {project?.name ?? repo.name}
-                          </h3>
-                          <ArrowUpRight className="h-4 w-4 shrink-0 text-muted transition-colors group-hover:text-accent" />
-                        </div>
-                        <p className="line-clamp-2 flex-1 text-sm leading-relaxed text-muted">
-                          {project?.description ?? "Open source project."}
+          {REPO_PROJECTS.map((project, i) => {
+            const name = repoNameFromUrl(project.link!);
+            const live = stats[name];
+            return (
+              <Reveal key={project.name} delay={i * 0.06} className="h-full">
+                <TiltCard className="group h-full">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-full flex-col offset-shadow-sm rounded-lg border border-border bg-surface p-6 transition-colors hover:border-accent/50"
+                  >
+                    <div className="mb-3 flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="font-medium text-foreground">
+                          {project.name}
+                        </h3>
+                        <p className="section-label mt-1 text-[10px] text-muted">
+                          {USERNAME}/{name}
                         </p>
-                        <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted">
-                          {repo.language && (
+                      </div>
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-muted transition-colors group-hover:text-accent" />
+                    </div>
+
+                    <p className="line-clamp-2 flex-1 text-sm leading-relaxed text-muted">
+                      {project.description}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted">
+                      {live ? (
+                        <>
+                          {live.language && (
                             <span className="flex items-center gap-1.5">
                               <span
                                 className="h-2 w-2 rounded-full"
                                 style={{
                                   background:
-                                    LANGUAGE_COLORS[repo.language] ?? "#8b7bff",
+                                    LANGUAGE_COLORS[live.language] ?? "#8b7bff",
                                 }}
                               />
-                              {repo.language}
+                              {live.language}
                             </span>
                           )}
                           <span className="flex items-center gap-1">
                             <Star className="h-3.5 w-3.5" />
-                            {repo.stargazers_count}
+                            {live.stargazers_count}
                           </span>
                           <span className="flex items-center gap-1">
                             <GitFork className="h-3.5 w-3.5" />
-                            {repo.forks_count}
+                            {live.forks_count}
                           </span>
                           <span className="ml-auto">
-                            {timeAgo(repo.updated_at)}
+                            {timeAgo(live.updated_at)}
                           </span>
-                        </div>
-                      </motion.a>
-                    </TiltCard>
-                  </Reveal>
-                );
-              })}
+                        </>
+                      ) : (
+                        project.stack.slice(0, 4).map((tech) => (
+                          <span
+                            key={tech}
+                            className="section-label text-[10px] text-muted"
+                          >
+                            {tech}
+                          </span>
+                        ))
+                      )}
+                    </div>
+                  </a>
+                </TiltCard>
+              </Reveal>
+            );
+          })}
         </div>
 
         <Reveal delay={0.2} className="mt-8">

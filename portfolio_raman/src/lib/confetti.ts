@@ -1,6 +1,14 @@
-const COLORS = ["#8b7bff", "#4fd1c5", "#ffffff"];
+function themeColors() {
+  const styles = getComputedStyle(document.documentElement);
+  return [
+    styles.getPropertyValue("--accent").trim() || "#e4703a",
+    styles.getPropertyValue("--accent-2").trim() || "#5fb49c",
+    styles.getPropertyValue("--foreground").trim() || "#f0e9dc",
+  ];
+}
 
 export function burstConfetti(x: number, y: number) {
+  const COLORS = themeColors();
   const count = 22;
 
   for (let i = 0; i < count; i++) {

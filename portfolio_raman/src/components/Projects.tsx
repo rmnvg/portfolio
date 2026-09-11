@@ -6,10 +6,10 @@ import { projects } from "@/lib/data";
 
 export default function Projects() {
   return (
-    <section id="projects" className="border-t border-border py-28">
+    <section id="projects" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <SectionHeading
-          index="03"
+          index="04"
           label="Projects"
           title="Things I've built"
         />
@@ -18,7 +18,7 @@ export default function Projects() {
           {projects.map((project, i) => (
             <Reveal key={project.name} delay={i * 0.1} className="h-full">
               <TiltCard className="group h-full">
-                <div className="flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-accent/50 sm:p-8">
+                <div className="flex h-full flex-col offset-shadow-sm rounded-lg border border-border bg-surface p-6 transition-colors hover:border-accent/50 sm:p-8">
                   <div className="mb-4 flex items-start justify-between">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface-2 text-accent">
                       <FolderGit2 className="h-5 w-5" />

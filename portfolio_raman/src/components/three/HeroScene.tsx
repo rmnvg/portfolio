@@ -55,7 +55,7 @@ function OrbitNodes() {
         tilt: (i / 10) * Math.PI,
         offset: i * 1.3,
         size: 0.035 + (i % 3) * 0.012,
-        color: i % 2 === 0 ? "#8b7bff" : "#4fd1c5",
+        color: i % 2 === 0 ? "#e4703a" : "#5fb49c",
       })),
     [],
   );
@@ -104,8 +104,8 @@ function Core() {
         <mesh ref={coreRef}>
           <icosahedronGeometry args={[1.3, 6]} />
           <MeshDistortMaterial
-            color="#4a3fb5"
-            emissive="#8b7bff"
+            color="#8c3d1c"
+            emissive="#e4703a"
             emissiveIntensity={0.35}
             distort={0.42}
             speed={1.8}
@@ -116,7 +116,7 @@ function Core() {
         <mesh ref={wireRef} scale={1.22}>
           <icosahedronGeometry args={[1.3, 1]} />
           <meshBasicMaterial
-            color="#4fd1c5"
+            color="#5fb49c"
             wireframe
             transparent
             opacity={0.18}
@@ -124,7 +124,7 @@ function Core() {
         </mesh>
       </Float>
       <OrbitNodes />
-      <Sparkles count={60} scale={4.2} size={1.6} speed={0.25} color="#8b7bff" />
+      <Sparkles count={60} scale={4.2} size={1.6} speed={0.25} color="#e4703a" />
     </group>
   );
 }
@@ -138,8 +138,8 @@ export default function HeroScene() {
       className="!touch-none"
     >
       <ambientLight intensity={0.5} />
-      <pointLight position={[4, 3, 4]} intensity={40} color="#8b7bff" />
-      <pointLight position={[-4, -2, -3]} intensity={20} color="#4fd1c5" />
+      <pointLight position={[4, 3, 4]} intensity={40} color="#e4703a" />
+      <pointLight position={[-4, -2, -3]} intensity={20} color="#5fb49c" />
       <Core />
     </Canvas>
   );
