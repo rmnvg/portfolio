@@ -1,7 +1,7 @@
+import Image from "next/image";
 import { GraduationCap } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
-import ParticleAvatar from "@/components/ParticleAvatar";
 import Counter from "@/components/Counter";
 import { education, personal, stats } from "@/lib/data";
 
@@ -13,14 +13,18 @@ export default function About() {
 
         <div className="mb-16 flex flex-col items-center gap-16 lg:flex-row lg:items-start">
           <Reveal delay={0.02} className="shrink-0">
-            <div className="relative">
+            <div className="relative h-64 w-64">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/25 to-accent-2/15 blur-3xl" />
-              <div className="relative">
-                <ParticleAvatar src="/raman.jpg" size={280} gap={3.2} />
+              <div className="offset-shadow-sm relative h-full w-full overflow-hidden rounded-full border border-border">
+                <Image
+                  src="/raman.jpg"
+                  alt={personal.name}
+                  fill
+                  sizes="256px"
+                  priority
+                  className="object-cover"
+                />
               </div>
-              <p className="section-label mt-4 text-center text-[11px] text-muted">
-                hover to interact
-              </p>
             </div>
           </Reveal>
 
