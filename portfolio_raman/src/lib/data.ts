@@ -10,7 +10,8 @@ export const personal = {
   tagline:
     "I build production-grade AI pipelines — RAG systems, semantic search, and LLM-powered workflows that process millions of documents a year.",
   summary:
-    "Software Engineer at Zinnia building Gen AI systems for insurance and financial workflows. I care about turning research-grade ML ideas into reliable, auditable, high-throughput production pipelines — from document classification to retrieval-augmented generation.",
+    "Software Engineer with hands-on experience building Gen AI systems for insurance and financial workflows. I care about turning research-grade ML ideas into reliable, auditable, high-throughput production pipelines — from document classification to retrieval-augmented generation.",
+  badge: "Ex-Zinnia · Building Gen AI systems",
 };
 
 export const stats = [
@@ -31,7 +32,7 @@ export const experience: Experience[] = [
   {
     company: "Zinnia",
     role: "Software Engineer — Gen AI (Full-Time, prev. Intern)",
-    period: "Jan 2025 — Present",
+    period: "Jan 2025 — Jul 2026",
     points: [
       "Architected a multi-tier document classification pipeline (barcode → OCR → semantic search → LLM fallback) processing ~8K–10K documents/day (~2.5M/year) for insurance and financial workflows.",
       "Achieved 85–90% straight-through processing (STP), significantly reducing manual review effort and operational costs.",

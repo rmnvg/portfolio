@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { personal } from "@/lib/data";
+import HeroSceneClient from "@/components/three/HeroSceneClient";
 
 export default function Hero() {
   return (
@@ -28,7 +28,7 @@ export default function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-2 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-2" />
             </span>
-            Building Gen AI systems at Zinnia
+            {personal.badge}
           </motion.div>
 
           <motion.h1
@@ -113,19 +113,11 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative mx-auto w-full max-w-sm"
+          className="relative mx-auto aspect-square w-full max-w-sm"
         >
-          <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-accent/30 to-accent-2/20 blur-2xl" />
-          <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface p-3">
-            <div className="relative aspect-square w-full overflow-hidden rounded-[1.5rem]">
-              <Image
-                src="/raman.png"
-                alt={personal.name}
-                fill
-                priority
-                className="object-cover"
-              />
-            </div>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/25 to-accent-2/15 blur-3xl" />
+          <div className="absolute inset-0">
+            <HeroSceneClient />
           </div>
         </motion.div>
       </div>
