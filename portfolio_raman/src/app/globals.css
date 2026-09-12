@@ -49,11 +49,34 @@
 
 html {
   scroll-behavior: smooth;
+  /* Stop iOS inflating body copy when the phone is rotated to landscape. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  /* Decorative blurs and the marquee track are wider than the viewport by
+     design; clip rather than let a phone pan sideways. `clip` keeps position:
+     sticky/fixed working, which `hidden` would break. */
+  overflow-x: clip;
+}
+
+/* Replace the default blue flash with something in-palette. */
+a,
+button,
+[role="button"],
+input,
+summary {
+  -webkit-tap-highlight-color: color-mix(in oklab, var(--accent) 20%, transparent);
+}
+
+/* Long headings break more evenly on narrow screens. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 body,

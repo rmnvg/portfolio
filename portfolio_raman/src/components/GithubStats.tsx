@@ -193,7 +193,7 @@ export default function GithubStats() {
             href={personal.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-accent"
+            className="inline-flex min-h-11 items-center gap-1.5 py-2 text-sm text-muted transition-colors hover:text-accent sm:min-h-0 sm:py-0"
           >
             View all repositories on GitHub{" "}
             <ArrowUpRight className="h-3.5 w-3.5" />

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-screen flex-1 items-center justify-center overflow-hidden px-6">
+    <main className="relative flex min-h-svh flex-1 items-center justify-center overflow-hidden px-6">
       <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,black,transparent)]" />
       <div className="pointer-events-none absolute -top-24 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
 

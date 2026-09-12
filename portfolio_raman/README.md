@@ -57,6 +57,22 @@ back to the bundled Geist if the network is unavailable, so builds never fail on
 `schema.org` Person/WebSite/ProfilePage data is emitted by
 [`src/components/StructuredData.tsx`](src/components/StructuredData.tsx).
 
+## Responsive behaviour
+
+Verified with no horizontal overflow at 320 / 390 / 430 / 768 / 1440px.
+
+- The hero uses `min-h-svh`, not `min-h-screen` — `100vh` on iOS Safari includes
+  the area behind the browser chrome, which pushes hero content below the fold.
+- Interactive controls are at least 44×44px on touch and may shrink from `sm`/`md`
+  up (hamburger, theme toggle, suggestion chips, repo links, contact pills).
+- `body` uses `overflow-x: clip` — the hero glow and marquee track are
+  deliberately wider than the viewport, and `clip` contains them without
+  breaking `position: sticky`/`fixed` the way `hidden` would.
+- Expensive visuals are dropped on small screens: the 3D orb is `lg:` only and
+  the pipeline canvas is `md:` only, so phones render the stacked cards instead.
+- The custom cursor only activates for fine pointers, so touch devices keep
+  native behaviour.
+
 ## Accessibility notes
 
 - A skip link precedes the canvas backgrounds and jumps to `#main-content`.

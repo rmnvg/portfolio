@@ -82,7 +82,7 @@ export default function ResumeSearch() {
                   <button
                     key={q}
                     onClick={() => setQuery(q)}
-                    className="rounded-full border border-border px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+                    className="inline-flex min-h-11 items-center rounded-full border border-border px-3.5 py-2 text-xs text-muted transition-colors hover:border-accent hover:text-accent sm:min-h-0 sm:py-1.5"
                   >
                     {q}
                   </button>
@@ -174,7 +174,7 @@ export default function ResumeSearch() {
 
                           <button
                             onClick={() => jumpTo(hit.passage.anchor)}
-                            className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-accent"
+                            className="mt-2 inline-flex min-h-11 items-center gap-1.5 py-2 text-xs text-muted transition-colors hover:text-accent sm:mt-3 sm:min-h-0 sm:py-0"
                           >
                             jump to source
                             <ArrowRight className="h-3 w-3" />

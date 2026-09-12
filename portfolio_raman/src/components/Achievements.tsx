@@ -39,9 +39,9 @@ export default function Achievements() {
               href={featured.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group offset-shadow-sm tint-accent flex flex-col gap-6 rounded-lg border p-6 transition-colors hover:border-accent sm:flex-row sm:items-center sm:p-8"
+              className="group offset-shadow-sm tint-accent relative flex flex-col gap-4 rounded-lg border p-6 transition-colors hover:border-accent sm:flex-row sm:items-center sm:gap-6 sm:p-8"
             >
-              <div className="flex items-baseline gap-3 sm:w-56 sm:shrink-0 sm:flex-col sm:items-start sm:gap-1">
+              <div className="flex items-baseline gap-3 pr-12 sm:w-56 sm:shrink-0 sm:flex-col sm:items-start sm:gap-1 sm:pr-0">
                 <p className="text-gradient text-4xl font-semibold sm:text-5xl">
                   <Counter value={featured.metric} />
                 </p>
@@ -54,7 +54,7 @@ export default function Achievements() {
                 {featured.text}
               </p>
 
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-muted transition-colors group-hover:border-accent group-hover:text-accent">
+              <span className="absolute top-6 right-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-muted transition-colors group-hover:border-accent group-hover:text-accent sm:static sm:top-auto sm:right-auto">
                 <ArrowUpRight className="h-4 w-4" />
               </span>
             </a>

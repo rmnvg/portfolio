@@ -113,7 +113,7 @@ export default function Contact() {
             href={personal.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
           >
             <GithubIcon className="h-4 w-4" />
             GitHub <ArrowUpRight className="h-3.5 w-3.5" />
@@ -122,7 +122,7 @@ export default function Contact() {
             href={personal.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
           >
             <LinkedinIcon className="h-4 w-4" />
             LinkedIn <ArrowUpRight className="h-3.5 w-3.5" />

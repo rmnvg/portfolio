@@ -29,7 +29,7 @@ export default function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${project.name} source code`}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted transition-colors group-hover:border-accent group-hover:text-accent"
+                        className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-muted transition-colors group-hover:border-accent group-hover:text-accent sm:h-9 sm:w-9"
                       >
                         <ArrowUpRight className="h-4 w-4" />
                       </a>

@@ -61,9 +61,9 @@ export default function About() {
                     {e.school}
                   </p>
                   <p className="mt-1 text-sm text-muted">{e.degree}</p>
-                  <div className="mt-2 flex items-center justify-between text-xs text-muted">
+                  <div className="mt-2 flex flex-col gap-1 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                     <span>{e.period}</span>
-                    <span className="font-mono text-accent-2">
+                    <span className="font-mono text-accent-2 sm:text-right">
                       {e.detail}
                     </span>
                   </div>

@@ -53,7 +53,7 @@ export default function Navbar() {
         <a
           href="#top"
           onClick={(e) => handleNav(e, "#top")}
-          className="font-mono text-sm font-medium tracking-tight text-foreground"
+          className="-ml-1 flex h-11 items-center px-1 font-mono text-sm font-medium tracking-tight text-foreground"
         >
           {personal.name
             .split(" ")
@@ -120,8 +120,9 @@ export default function Navbar() {
           <ThemeToggle />
           <button
             aria-label="Toggle menu"
+            aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
-            className="text-foreground"
+            className="-mr-2 flex h-11 w-11 items-center justify-center text-foreground"
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -139,7 +140,7 @@ export default function Navbar() {
                   aria-current={
                     active === link.href.slice(1) ? "true" : undefined
                   }
-                  className={`block text-base transition-colors ${
+                  className={`flex min-h-11 items-center text-base transition-colors ${
                     active === link.href.slice(1)
                       ? "text-accent"
                       : "text-muted hover:text-foreground"
@@ -155,7 +156,7 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-foreground"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm text-foreground"
               >
                 Resume <ArrowUpRight className="h-3.5 w-3.5" />
               </a>

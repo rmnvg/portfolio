@@ -15,7 +15,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-28 pb-12"
+      className="relative flex min-h-svh flex-col justify-center overflow-hidden pt-28 pb-12"
     >
       <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_50%_at_30%_10%,black,transparent)]" />
       <div className="pointer-events-none absolute -top-32 -left-20 h-[32rem] w-[32rem] rounded-full bg-accent/15 blur-[130px]" />
