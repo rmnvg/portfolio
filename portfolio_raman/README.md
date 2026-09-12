@@ -28,10 +28,41 @@ Open [http://localhost:3000](http://localhost:3000).
 3. Framework preset is auto-detected as Next.js — no config needed.
 4. Deploy.
 
-Optional: update `siteUrl` in [`src/app/layout.tsx`](src/app/layout.tsx) to your real domain once deployed (used for SEO metadata).
+**Important:** set your real domain once deployed — either add a `NEXT_PUBLIC_SITE_URL`
+environment variable in Vercel, or edit the fallback in [`src/lib/site.ts`](src/lib/site.ts).
+It drives canonical URLs, the sitemap, `robots.txt`, JSON-LD, and the absolute
+Open Graph image URL that LinkedIn/X/Slack fetch when the link is shared.
 
 ## Updating content
 
 - **Personal info, experience, projects, skills, achievements**: [`src/lib/data.ts`](src/lib/data.ts)
+- **Site URL**: [`src/lib/site.ts`](src/lib/site.ts) (or `NEXT_PUBLIC_SITE_URL`)
 - **Resume PDF**: replace `public/Ramanjotsingh_resume.pdf`
-- **Profile photo**: replace `public/raman.png`
+- **Profile photo**: replace `public/raman.jpg`
+
+## Generated assets
+
+These are produced at build time from code — there are no image files to maintain.
+
+| Route | Source | Purpose |
+| --- | --- | --- |
+| `/opengraph-image`, `/twitter-image` | [`src/app/opengraph-image.tsx`](src/app/opengraph-image.tsx) | 1200×630 social share card, built from `data.ts` |
+| `/icon`, `/apple-icon` | [`src/app/icon.tsx`](src/app/icon.tsx) | Monogram favicon and touch icon |
+| `/sitemap.xml`, `/robots.txt` | [`src/app/sitemap.ts`](src/app/sitemap.ts) | Search engine discovery |
+| `/manifest.webmanifest` | [`src/app/manifest.ts`](src/app/manifest.ts) | PWA/install metadata |
+
+The share card pulls Instrument Serif from Google Fonts at build time and falls
+back to the bundled Geist if the network is unavailable, so builds never fail on it.
+
+`schema.org` Person/WebSite/ProfilePage data is emitted by
+[`src/components/StructuredData.tsx`](src/components/StructuredData.tsx).
+
+## Accessibility notes
+
+- A skip link precedes the canvas backgrounds and jumps to `#main-content`.
+- The custom cursor hides the native pointer, so `:focus-visible` gets a loud
+  accent outline and the system cursor is restored while tabbing.
+- `prefers-reduced-motion` disables the marquee, scroll reveals, count-ups and
+  the cursor. Scroll-revealed content starts at `opacity: 0`, so `globals.css`
+  force-reveals every `[data-reveal]` element under that media query — the page
+  is never left blank if the animation hook lags the media query.

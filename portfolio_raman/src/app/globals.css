@@ -194,3 +194,75 @@ body::before {
 .animate-marquee {
   animation: marquee 26s linear infinite;
 }
+
+/* ── Focus & keyboard access ────────────────────────────────────── */
+/* The custom cursor hides the pointer, so keyboard focus has to be loud. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 300;
+  transform: translateY(-200%);
+  border-radius: 9999px;
+  border: 1px solid var(--accent);
+  background: var(--background);
+  padding: 0.625rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Keyboard users need a real pointer back while tabbing. */
+html.cursor-none-custom:focus-within:has(:focus-visible),
+html.cursor-none-custom:focus-within:has(:focus-visible) * {
+  cursor: auto !important;
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-marquee {
+    animation: none;
+    transform: none;
+  }
+
+  /* Restore the system cursor rather than a motion-tracked substitute. */
+  html.cursor-none-custom,
+  html.cursor-none-custom * {
+    cursor: auto !important;
+  }
+
+  /* Scroll-reveal content starts at opacity:0 and is un-hidden by JS. Force it
+     visible here so a reduced-motion reader never sees an empty page. */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

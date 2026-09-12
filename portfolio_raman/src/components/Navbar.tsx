@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, ArrowUpRight, Command } from "lucide-react";
 import { navLinks, personal } from "@/lib/data";
@@ -8,11 +8,18 @@ import { useLenis } from "@/lib/lenis-context";
 import { OPEN_PALETTE_EVENT } from "@/components/CommandPalette";
 import MagneticButton from "@/components/MagneticButton";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useActiveSection } from "@/lib/useActiveSection";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lenis = useLenis();
+
+  const sectionIds = useMemo(
+    () => navLinks.map((l) => l.href.slice(1)),
+    [],
+  );
+  const active = useActiveSection(sectionIds);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -55,18 +62,34 @@ export default function Navbar() {
           <span className="text-accent">.</span>
         </a>
 
-        <ul className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                onClick={(e) => handleNav(e, link.href)}
-                className="text-sm text-muted transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+        <ul className="hidden items-center gap-1 md:flex">
+          {navLinks.map((link) => {
+            const isActive = active === link.href.slice(1);
+            return (
+              <li key={link.href} className="relative">
+                <a
+                  href={link.href}
+                  onClick={(e) => handleNav(e, link.href)}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`relative z-10 block rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                    isActive
+                      ? "text-foreground"
+                      : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </a>
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-active"
+                    aria-hidden="true"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="absolute inset-0 rounded-full border border-border bg-surface"
+                  />
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         <div className="hidden items-center gap-2.5 md:flex">
@@ -113,7 +136,14 @@ export default function Navbar() {
                 <a
                   href={link.href}
                   onClick={(e) => handleNav(e, link.href)}
-                  className="block text-base text-muted transition-colors hover:text-foreground"
+                  aria-current={
+                    active === link.href.slice(1) ? "true" : undefined
+                  }
+                  className={`block text-base transition-colors ${
+                    active === link.href.slice(1)
+                      ? "text-accent"
+                      : "text-muted hover:text-foreground"
+                  }`}
                 >
                   {link.label}
                 </a>

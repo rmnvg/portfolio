@@ -154,7 +154,7 @@ function buildCorpus(): Passage[] {
       id: `ach-${i}`,
       section: "Achievements",
       anchor: "achievements",
-      text: item,
+      text: item.text,
     });
   });
 

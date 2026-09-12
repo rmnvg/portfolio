@@ -178,13 +178,55 @@ export const education: EducationItem[] = [
   },
 ];
 
-export const achievements: string[] = [
-  "Mastered 700+ DSA questions across LeetCode and GeeksforGeeks.",
-  "Achieved AIR 4766 in JEE Mains, surpassing over 1 million students.",
-  "Attained AIR 6212 in JEE Advanced, among 200K qualifiers from 1 million candidates.",
-  "Served as Placement Coordinator — managed placements for 200+ students and coordinated with 10+ companies.",
-  "Mentored 50+ juniors in DSA through dedicated teaching sessions.",
-  "Consistently publish on LinkedIn — 2M+ views and 17K+ followers.",
+export type Achievement = {
+  /** Headline figure, pulled out so the section scans as numbers, not prose. */
+  metric: string;
+  caption: string;
+  text: string;
+  kind: "code" | "exam" | "leadership" | "teaching" | "writing";
+  featured?: boolean;
+  link?: string;
+};
+
+export const achievements: Achievement[] = [
+  {
+    metric: "2M+",
+    caption: "LinkedIn views",
+    text: "Consistently publish on LinkedIn about Gen AI systems, retrieval and production ML — 2M+ views and 17K+ followers.",
+    kind: "writing",
+    featured: true,
+    link: "https://www.linkedin.com/in/ramanjot-singh-5b574422b/",
+  },
+  {
+    metric: "700+",
+    caption: "DSA problems solved",
+    text: "Mastered 700+ DSA questions across LeetCode and GeeksforGeeks.",
+    kind: "code",
+  },
+  {
+    metric: "AIR 4766",
+    caption: "JEE Mains",
+    text: "Achieved AIR 4766 in JEE Mains, surpassing over 1 million students.",
+    kind: "exam",
+  },
+  {
+    metric: "AIR 6212",
+    caption: "JEE Advanced",
+    text: "Attained AIR 6212 in JEE Advanced, among 200K qualifiers from 1 million candidates.",
+    kind: "exam",
+  },
+  {
+    metric: "200+",
+    caption: "Students placed",
+    text: "Served as Placement Coordinator — managed placements for 200+ students and coordinated with 10+ companies.",
+    kind: "leadership",
+  },
+  {
+    metric: "50+",
+    caption: "Juniors mentored",
+    text: "Mentored 50+ juniors in DSA through dedicated teaching sessions.",
+    kind: "teaching",
+  },
 ];
 
 export const navLinks = [
