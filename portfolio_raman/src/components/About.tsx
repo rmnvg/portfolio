@@ -7,7 +7,7 @@ import { education, personal, stats } from "@/lib/data";
 
 export default function About() {
   return (
-    <section id="about" className="border-t border-border py-24">
+    <section id="about" className="pt-32 pb-24 sm:pt-36">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <SectionHeading index="01" label="About" title="Who I am" />
 

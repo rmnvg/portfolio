@@ -32,6 +32,14 @@ export default function Navbar() {
     if (!href.startsWith("#")) return;
     e.preventDefault();
     setOpen(false);
+
+    // The logo returns to the document top rather than to a section anchor.
+    if (href === "#top") {
+      if (lenis) lenis.scrollTo(0);
+      else window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     const el = document.querySelector(href);
     if (!el) return;
     if (lenis) lenis.scrollTo(el as HTMLElement, { offset: -72 });

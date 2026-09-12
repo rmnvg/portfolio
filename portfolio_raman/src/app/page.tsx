@@ -15,9 +15,9 @@ export default function Home() {
     <>
       <Navbar />
       <main id="main-content" className="flex-1">
+        <About />
         <Hero />
         <Marquee />
-        <About />
         <Experience />
         <Projects />
         <Skills />
