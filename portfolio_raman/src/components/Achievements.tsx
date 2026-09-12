@@ -28,7 +28,7 @@ export default function Achievements() {
     <section id="achievements" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <SectionHeading
-          index="07"
+          index="05"
           label="Achievements"
           title="Highlights along the way"
         />

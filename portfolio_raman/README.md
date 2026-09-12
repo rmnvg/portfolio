@@ -57,6 +57,18 @@ back to the bundled Geist if the network is unavailable, so builds never fail on
 `schema.org` Person/WebSite/ProfilePage data is emitted by
 [`src/components/StructuredData.tsx`](src/components/StructuredData.tsx).
 
+## Live GitHub data
+
+Each project card in *Things I've built* shows its repo slug, and
+[`src/components/RepoMeta.tsx`](src/components/RepoMeta.tsx) enriches it with
+live stars, forks, language and last-updated from the GitHub API.
+
+The call is unauthenticated, which GitHub rate-limits to 60 requests/hour per
+IP. When that limit is hit (or the API is unreachable) the stats are simply
+omitted and the repo slug still renders as a link — no error state, no layout
+shift. To make the stats more reliable under real traffic, proxy the call
+through a route handler with a `GITHUB_TOKEN` and cache the response.
+
 ## Responsive behaviour
 
 Verified with no horizontal overflow at 320 / 390 / 430 / 768 / 1440px.

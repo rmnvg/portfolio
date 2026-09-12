@@ -34,7 +34,7 @@ export default function ResumeSearch() {
     <section id="ask" className="border-t border-border py-24">
       <div className="mx-auto max-w-5xl px-6 sm:px-10">
         <SectionHeading
-          index="02"
+          index="06"
           label="Interrogate"
           title="Ask this résumé anything"
         />

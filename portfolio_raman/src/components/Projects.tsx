@@ -2,6 +2,7 @@ import { ArrowUpRight, FolderGit2 } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import TiltCard from "@/components/TiltCard";
+import RepoMeta from "@/components/RepoMeta";
 import { projects } from "@/lib/data";
 
 export default function Projects() {
@@ -9,7 +10,7 @@ export default function Projects() {
     <section id="projects" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <SectionHeading
-          index="04"
+          index="03"
           label="Projects"
           title="Things I've built"
         />
@@ -65,6 +66,14 @@ export default function Projects() {
                       </span>
                     ))}
                   </div>
+
+                  {/* mt-auto pins the repo line to the card floor so it lines
+                      up across cards of differing height. */}
+                  {project.link?.includes("github.com") && (
+                    <div className="mt-auto border-t border-border pt-4">
+                      <RepoMeta url={project.link} />
+                    </div>
+                  )}
                 </div>
               </TiltCard>
             </Reveal>

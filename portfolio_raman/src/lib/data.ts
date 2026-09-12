@@ -229,12 +229,12 @@ export const achievements: Achievement[] = [
   },
 ];
 
+// Order mirrors the page so the scroll-spy indicator tracks it.
 export const navLinks = [
   { href: "#about", label: "About" },
-  { href: "#ask", label: "Ask" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
-  { href: "#github", label: "Open Source" },
   { href: "#skills", label: "Skills" },
+  { href: "#ask", label: "Ask" },
   { href: "#contact", label: "Contact" },
 ];

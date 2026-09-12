@@ -7,7 +7,7 @@ export default function Skills() {
     <section id="skills" className="border-t border-border py-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <SectionHeading
-          index="06"
+          index="04"
           label="Skills"
           title="Tools I work with"
         />

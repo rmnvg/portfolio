@@ -65,7 +65,7 @@ export default function Contact() {
 
         <Reveal delay={0.02}>
           <p className="section-label mb-4 text-xs text-accent uppercase">
-            08 — Contact
+            07 — Contact
           </p>
           <h2 className="font-display text-4xl leading-[1.03] text-foreground sm:text-6xl">
             Let&rsquo;s build something{" "}
